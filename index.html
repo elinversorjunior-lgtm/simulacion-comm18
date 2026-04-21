@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo local — Automatización integral del marketing</title>
+  <style>
+    :root{
+      --bg:#f6f7f9; --card:#ffffff; --text:#1f2937; --muted:#6b7280;
+      --border:#d1d5db; --accent:#0f766e; --accent2:#ca8a04; --ok:#166534; --warn:#9a3412;
+      --soft:#eef2f7;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:Arial, Helvetica, sans-serif; color:var(--text);
+      background:var(--bg); line-height:1.45;
+    }
+    .wrap{max-width:1200px; margin:0 auto; padding:20px;}
+    h1,h2,h3{margin:0 0 12px}
+    p{margin:0 0 10px}
+    .hero{
+      background:var(--card); border:1px solid var(--border); border-radius:18px;
+      padding:20px; margin-bottom:18px;
+    }
+    .hero small{color:var(--muted)}
+    .grid{
+      display:grid; gap:16px;
+      grid-template-columns: 1.1fr 1fr;
+    }
+    @media (max-width: 900px){ .grid{grid-template-columns:1fr;} }
+    .card{
+      background:var(--card); border:1px solid var(--border); border-radius:18px; padding:16px;
+      box-shadow:0 2px 8px rgba(0,0,0,.03);
+    }
+    label{display:block; font-weight:700; margin:10px 0 6px}
+    input, select{
+      width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:10px;
+      background:white; font-size:14px;
+    }
+    .row{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+    @media (max-width: 700px){ .row{grid-template-columns:1fr;} }
+    .actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px}
+    button{
+      border:1px solid var(--border); background:white; color:var(--text);
+      border-radius:12px; padding:10px 14px; cursor:pointer; font-weight:700;
+    }
+    button.primary{background:var(--accent); color:white; border-color:var(--accent)}
+    button.secondary{background:var(--soft)}
+    .badge{
+      display:inline-block; padding:4px 8px; border-radius:999px; background:#ecfeff;
+      color:#155e75; border:1px solid #a5f3fc; font-size:12px; margin-right:6px;
+    }
+    .timeline{display:flex; flex-direction:column; gap:10px; margin-top:10px}
+    .step{
+      border-left:4px solid #cbd5e1; padding:10px 12px; background:#fafafa; border-radius:8px;
+    }
+    .step.ok{border-left-color:#16a34a; background:#f0fdf4}
+    .step.wait{border-left-color:#f59e0b; background:#fffbeb}
+    .mono{
+      font-family:Consolas, Monaco, monospace; font-size:13px; background:#111827; color:#e5e7eb;
+      padding:12px; border-radius:12px; overflow:auto;
+    }
+    .mini{
+      display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:12px;
+    }
+    @media (max-width: 700px){ .mini{grid-template-columns:repeat(2,1fr);} }
+    .mini .box{
+      background:#f9fafb; border:1px solid var(--border); border-radius:14px; padding:12px;
+      min-height:90px;
+    }
+    .muted{color:var(--muted)}
+    .success{color:var(--ok); font-weight:700}
+    .warning{color:var(--warn); font-weight:700}
+    .footer-note{
+      margin-top:14px; font-size:13px; color:var(--muted)
+    }
+    ul{margin:8px 0 0 18px}
+    .big{
+      font-size:22px; font-weight:700; color:var(--accent);
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>Demo local — Automatización integral del marketing</h1>
+    <p>Simulación didáctica para clase. Muestra cómo una señal del usuario activa una segmentación, un workflow y una acción automática. El Módulo 5 de COMM18 incluye precisamente el análisis de Customer Experience, funnel de conversión, desarrollo de workflows y soluciones integrales como email marketing, recomendación automatizada, notificaciones push y CRM automatizado. <span class="muted">Referencia de programa: COMM18.</span></p>
+    <small>Uso recomendado en clase: demostrar primero una interacción, luego explicar el workflow y finalmente relacionarlo con funnel, CX y automatización.</small>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>1) Simula el comportamiento del usuario</h2>
+      <div class="row">
+        <div>
+          <label>Nombre del usuario</label>
+          <input id="nombre" value="Laura" />
+        </div>
+        <div>
+          <label>Email</label>
+          <input id="email" value="laura@example.com" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Evento principal</label>
+          <select id="evento">
+            <option value="descarga_guia">Descarga una guía gratuita</option>
+            <option value="abandono_carrito" selected>Abandona el carrito</option>
+            <option value="visita_repetida">Visita 2 veces el mismo producto</option>
+            <option value="compra_realizada">Compra realizada</option>
+          </select>
+        </div>
+        <div>
+          <label>Interés o categoría</label>
+          <select id="categoria">
+            <option value="running" selected>Zapatillas running</option>
+            <option value="email_marketing">Email marketing</option>
+            <option value="crm">CRM</option>
+            <option value="ia_marketing">IA en marketing</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Fase del funnel</label>
+          <select id="funnel">
+            <option value="captacion">Captación</option>
+            <option value="consideracion" selected>Consideración</option>
+            <option value="conversion">Conversión</option>
+            <option value="fidelizacion">Fidelización</option>
+          </select>
+        </div>
+        <div>
+          <label>Canal principal</label>
+          <select id="canal">
+            <option value="email" selected>Email</option>
+            <option value="push">Push</option>
+            <option value="crm">CRM</option>
+            <option value="recomendacion">Recomendación web</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="primary" onclick="ejecutarDemo()">Ejecutar automatización</button>
+        <button class="secondary" onclick="reiniciarDemo()">Reiniciar</button>
+      </div>
+
+      <p class="footer-note">La lógica es intencionalmente sencilla para fines docentes. No necesita internet, WordPress ni plugins reales.</p>
+    </div>
+
+    <div class="card">
+      <h2>2) Resultado didáctico</h2>
+      <div class="mini">
+        <div class="box"><div class="muted">Segmento</div><div id="outSegmento" class="big">—</div></div>
+        <div class="box"><div class="muted">Activador</div><div id="outTrigger" class="big">—</div></div>
+        <div class="box"><div class="muted">Acción</div><div id="outAccion" class="big">—</div></div>
+        <div class="box"><div class="muted">Objetivo</div><div id="outObjetivo" class="big">—</div></div>
+      </div>
+
+      <h3 style="margin-top:16px">Secuencia del workflow</h3>
+      <div id="timeline" class="timeline">
+        <div class="step">Pendiente de ejecución.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>3) Explicación para proyectar en clase</h2>
+    <div id="explicacion">
+      <p>Cuando ejecutes la demo, aquí aparecerá una explicación breve lista para leer o comentar.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>4) Guion ultrabreve de apoyo</h2>
+    <ul>
+      <li>El usuario hace una acción.</li>
+      <li>El sistema detecta una señal.</li>
+      <li>La IA o la lógica de negocio segmenta.</li>
+      <li>Se dispara un workflow.</li>
+      <li>La plataforma ejecuta una acción automática.</li>
+      <li>Se busca conversión, recuperación o fidelización.</li>
+    </ul>
+    <p class="footer-note">Frase útil: “Automatizar no es bombardear. Es responder mejor al momento del usuario”.</p>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>5) Pseudocódigo de la automatización</h2>
+    <div class="mono" id="pseudocodigo">SI ocurre un evento del usuario → clasificar segmento → activar workflow → ejecutar acción automática → medir objetivo.</div>
+  </div>
+</div>
+
+<script>
+  function mapDemo() {
+    const evento = document.getElementById('evento').value;
+    const categoria = document.getElementById('categoria').value;
+    const funnel = document.getElementById('funnel').value;
+    const canal = document.getElementById('canal').value;
+
+    let segmento = 'Usuario general';
+    let trigger = 'Evento detectado';
+    let accion = 'Seguimiento automático';
+    let objetivo = 'Mejorar interacción';
+
+    if (evento === 'descarga_guia') {
+      segmento = 'Lead frío';
+      trigger = 'Descarga de recurso';
+      accion = canal === 'email' ? 'Email de bienvenida' : 'Alta en secuencia básica';
+      objetivo = 'Nutrir lead';
+    } else if (evento === 'abandono_carrito') {
+      segmento = 'Usuario con intención de compra';
+      trigger = 'Abandono de carrito';
+      accion = canal === 'push' ? 'Notificación push' : 'Email recordatorio';
+      objetivo = 'Recuperar conversión';
+    } else if (evento === 'visita_repetida') {
+      segmento = 'Usuario comparador';
+      trigger = 'Dos visitas al mismo producto';
+      accion = canal === 'recomendacion' ? 'Recomendación personalizada' : 'Etiqueta CRM + seguimiento';
+      objetivo = 'Mover a conversión';
+    } else if (evento === 'compra_realizada') {
+      segmento = 'Cliente nuevo';
+      trigger = 'Compra completada';
+      accion = canal === 'crm' ? 'Alta en CRM fidelización' : 'Email postcompra';
+      objetivo = 'Fidelizar';
+    }
+
+    if (funnel === 'captacion' && evento !== 'compra_realizada') objetivo = 'Captar o registrar';
+    if (funnel === 'fidelizacion' || evento === 'compra_realizada') objetivo = 'Fidelizar';
+
+    return {segmento, trigger, accion, objetivo, categoria, evento, funnel, canal};
+  }
+
+  function ejecutarDemo() {
+    const nombre = document.getElementById('nombre').value || 'Usuario';
+    const email = document.getElementById('email').value || 'sin-email';
+    const data = mapDemo();
+
+    document.getElementById('outSegmento').textContent = data.segmento;
+    document.getElementById('outTrigger').textContent = data.trigger;
+    document.getElementById('outAccion').textContent = data.accion;
+    document.getElementById('outObjetivo').textContent = data.objetivo;
+
+    const timeline = document.getElementById('timeline');
+    timeline.innerHTML = `
+      <div class="step ok"><strong>1. Señal del usuario:</strong> ${nombre} realiza el evento <em>${pretty(data.evento)}</em> en la categoría <em>${pretty(data.categoria)}</em>.</div>
+      <div class="step ok"><strong>2. Lectura del dato:</strong> el sistema registra el email <em>${email}</em> y la fase del funnel <em>${pretty(data.funnel)}</em>.</div>
+      <div class="step ok"><strong>3. Segmentación:</strong> se clasifica como <em>${data.segmento}</em>.</div>
+      <div class="step ok"><strong>4. Activador:</strong> se dispara el trigger <em>${data.trigger}</em>.</div>
+      <div class="step ok"><strong>5. Acción automática:</strong> la plataforma ejecuta <em>${data.accion}</em>.</div>
+      <div class="step wait"><strong>6. Objetivo de negocio:</strong> ${data.objetivo} y medir el resultado.</div>
+    `;
+
+    document.getElementById('explicacion').innerHTML = `
+      <p><strong>Lectura para clase:</strong> En este ejemplo, el usuario genera una señal. El sistema la interpreta, lo coloca en un segmento y activa un workflow. La acción automática no se envía a todos por igual: depende del evento, de la fase del funnel y del objetivo comercial.</p>
+      <p><strong>Relación con el módulo:</strong> aquí se ve Customer Experience, funnel, workflow y automatización integral en una sola secuencia.</p>
+    `;
+
+    document.getElementById('pseudocodigo').textContent =
+`SI usuario = "${pretty(data.evento)}"
+ENTONCES segmento = "${data.segmento}"
+Y trigger = "${data.trigger}"
+Y acción = "${data.accion}"
+PARA objetivo = "${data.objetivo}"`;
+  }
+
+  function reiniciarDemo() {
+    document.getElementById('outSegmento').textContent = '—';
+    document.getElementById('outTrigger').textContent = '—';
+    document.getElementById('outAccion').textContent = '—';
+    document.getElementById('outObjetivo').textContent = '—';
+    document.getElementById('timeline').innerHTML = '<div class="step">Pendiente de ejecución.</div>';
+    document.getElementById('explicacion').innerHTML = '<p>Cuando ejecutes la demo, aquí aparecerá una explicación breve lista para leer o comentar.</p>';
+    document.getElementById('pseudocodigo').textContent = 'SI ocurre un evento del usuario → clasificar segmento → activar workflow → ejecutar acción automática → medir objetivo.';
+  }
+
+  function pretty(v) {
+    const map = {
+      descarga_guia: 'descarga de guía',
+      abandono_carrito: 'abandono de carrito',
+      visita_repetida: 'visita repetida',
+      compra_realizada: 'compra realizada',
+      running: 'zapatillas running',
+      email_marketing: 'email marketing',
+      crm: 'CRM',
+      ia_marketing: 'IA en marketing',
+      captacion: 'captación',
+      consideracion: 'consideración',
+      conversion: 'conversión',
+      fidelizacion: 'fidelización'
+    };
+    return map[v] || v;
+  }
+</script>
+</body>
+</html>
