@@ -84,8 +84,8 @@
 <div class="wrap">
   <div class="hero">
     <h1>Demo local — Automatización integral del marketing</h1>
-    <p>Simulación didáctica para clase. Muestra cómo una señal del usuario activa una segmentación, un workflow y una acción automática. El Módulo 5 de COMM18 incluye precisamente el análisis de Customer Experience, funnel de conversión, desarrollo de workflows y soluciones integrales como email marketing, recomendación automatizada, notificaciones push y CRM automatizado. <span class="muted">Referencia de programa: COMM18.</span></p>
-    <small>Uso recomendado en clase: demostrar primero una interacción, luego explicar el workflow y finalmente relacionarlo con funnel, CX y automatización.</small>
+    <p>Simulación didáctica para clase. Muestra cómo una señal del usuario activa una segmentación, un workflow y una acción automática. El objetivo es ver de forma sencilla cómo una empresa puede responder mejor al comportamiento del usuario. <span class="muted">Referencia de programa: COMM18.</span></p>
+    <small>Uso recomendado en clase: demostrar primero una interacción, luego explicar el workflow y finalmente relacionarlo con funnel, experiencia de usuario y automatización.</small>
   </div>
 
   <div class="grid">
@@ -108,17 +108,17 @@
           <select id="evento">
             <option value="descarga_guia">Descarga una guía gratuita</option>
             <option value="abandono_carrito" selected>Abandona el carrito</option>
-            <option value="visita_repetida">Visita 2 veces el mismo producto</option>
+            <option value="visita_repetida">Visita 2 veces lo mismo</option>
             <option value="compra_realizada">Compra realizada</option>
           </select>
         </div>
         <div>
           <label>Interés o categoría</label>
           <select id="categoria">
-            <option value="running" selected>Zapatillas running</option>
-            <option value="email_marketing">Email marketing</option>
-            <option value="crm">CRM</option>
-            <option value="ia_marketing">IA en marketing</option>
+            <option value="producto" selected>Producto</option>
+            <option value="guia">Guía gratuita</option>
+            <option value="servicio">Servicio</option>
+            <option value="cliente_actual">Cliente actual</option>
           </select>
         </div>
       </div>
@@ -137,9 +137,9 @@
           <label>Canal principal</label>
           <select id="canal">
             <option value="email" selected>Email</option>
-            <option value="push">Push</option>
-            <option value="crm">CRM</option>
-            <option value="recomendacion">Recomendación web</option>
+            <option value="aviso_movil">Aviso en móvil</option>
+            <option value="seguimiento">Seguimiento interno</option>
+            <option value="web">Sugerencia en la web</option>
           </select>
         </div>
       </div>
@@ -180,10 +180,10 @@
     <ul>
       <li>El usuario hace una acción.</li>
       <li>El sistema detecta una señal.</li>
-      <li>La IA o la lógica de negocio segmenta.</li>
+      <li>El sistema segmenta o interpreta.</li>
       <li>Se dispara un workflow.</li>
       <li>La plataforma ejecuta una acción automática.</li>
-      <li>Se busca conversión, recuperación o fidelización.</li>
+      <li>Se busca convertir, recuperar o fidelizar.</li>
     </ul>
     <p class="footer-note">Frase útil: “Automatizar no es bombardear. Es responder mejor al momento del usuario”.</p>
   </div>
@@ -207,28 +207,42 @@
     let objetivo = 'Mejorar interacción';
 
     if (evento === 'descarga_guia') {
-      segmento = 'Lead frío';
+      segmento = 'Usuario con interés inicial';
       trigger = 'Descarga de recurso';
-      accion = canal === 'email' ? 'Email de bienvenida' : 'Alta en secuencia básica';
-      objetivo = 'Nutrir lead';
+      if (canal === 'email') accion = 'Enviar email de bienvenida';
+      else if (canal === 'aviso_movil') accion = 'Enviar aviso en móvil';
+      else if (canal === 'seguimiento') accion = 'Registrar seguimiento interno';
+      else accion = 'Mostrar sugerencia relacionada en la web';
+      objetivo = 'Captar o nutrir el interés';
     } else if (evento === 'abandono_carrito') {
       segmento = 'Usuario con intención de compra';
       trigger = 'Abandono de carrito';
-      accion = canal === 'push' ? 'Notificación push' : 'Email recordatorio';
+      if (canal === 'email') accion = 'Enviar recordatorio por email';
+      else if (canal === 'aviso_movil') accion = 'Enviar aviso en móvil';
+      else if (canal === 'seguimiento') accion = 'Marcar seguimiento interno';
+      else accion = 'Mostrar recordatorio en la web';
       objetivo = 'Recuperar conversión';
     } else if (evento === 'visita_repetida') {
       segmento = 'Usuario comparador';
-      trigger = 'Dos visitas al mismo producto';
-      accion = canal === 'recomendacion' ? 'Recomendación personalizada' : 'Etiqueta CRM + seguimiento';
-      objetivo = 'Mover a conversión';
+      trigger = 'Visita repetida';
+      if (canal === 'email') accion = 'Enviar contenido de apoyo';
+      else if (canal === 'aviso_movil') accion = 'Lanzar aviso breve';
+      else if (canal === 'seguimiento') accion = 'Etiquetar para seguimiento';
+      else accion = 'Mostrar sugerencia personalizada en la web';
+      objetivo = 'Mover hacia conversión';
     } else if (evento === 'compra_realizada') {
       segmento = 'Cliente nuevo';
       trigger = 'Compra completada';
-      accion = canal === 'crm' ? 'Alta en CRM fidelización' : 'Email postcompra';
+      if (canal === 'email') accion = 'Enviar mensaje postcompra';
+      else if (canal === 'aviso_movil') accion = 'Enviar aviso de bienvenida';
+      else if (canal === 'seguimiento') accion = 'Pasar a seguimiento interno';
+      else accion = 'Mostrar recomendación de continuidad';
       objetivo = 'Fidelizar';
     }
 
     if (funnel === 'captacion' && evento !== 'compra_realizada') objetivo = 'Captar o registrar';
+    if (funnel === 'consideracion' && evento === 'visita_repetida') objetivo = 'Acompañar la decisión';
+    if (funnel === 'conversion' && evento !== 'compra_realizada') objetivo = 'Convertir o recuperar';
     if (funnel === 'fidelizacion' || evento === 'compra_realizada') objetivo = 'Fidelizar';
 
     return {segmento, trigger, accion, objetivo, categoria, evento, funnel, canal};
@@ -246,17 +260,17 @@
 
     const timeline = document.getElementById('timeline');
     timeline.innerHTML = `
-      <div class="step ok"><strong>1. Señal del usuario:</strong> ${nombre} realiza el evento <em>${pretty(data.evento)}</em> en la categoría <em>${pretty(data.categoria)}</em>.</div>
+      <div class="step ok"><strong>1. Señal del usuario:</strong> ${nombre} realiza el evento <em>${pretty(data.evento)}</em> dentro de la categoría <em>${pretty(data.categoria)}</em>.</div>
       <div class="step ok"><strong>2. Lectura del dato:</strong> el sistema registra el email <em>${email}</em> y la fase del funnel <em>${pretty(data.funnel)}</em>.</div>
       <div class="step ok"><strong>3. Segmentación:</strong> se clasifica como <em>${data.segmento}</em>.</div>
       <div class="step ok"><strong>4. Activador:</strong> se dispara el trigger <em>${data.trigger}</em>.</div>
-      <div class="step ok"><strong>5. Acción automática:</strong> la plataforma ejecuta <em>${data.accion}</em>.</div>
+      <div class="step ok"><strong>5. Acción automática:</strong> la plataforma ejecuta <em>${data.accion}</em> por el canal <em>${pretty(data.canal)}</em>.</div>
       <div class="step wait"><strong>6. Objetivo de negocio:</strong> ${data.objetivo} y medir el resultado.</div>
     `;
 
     document.getElementById('explicacion').innerHTML = `
       <p><strong>Lectura para clase:</strong> En este ejemplo, el usuario genera una señal. El sistema la interpreta, lo coloca en un segmento y activa un workflow. La acción automática no se envía a todos por igual: depende del evento, de la fase del funnel y del objetivo comercial.</p>
-      <p><strong>Relación con el módulo:</strong> aquí se ve Customer Experience, funnel, workflow y automatización integral en una sola secuencia.</p>
+      <p><strong>Relación con el módulo:</strong> aquí se ve experiencia de usuario, funnel, workflow y automatización en una sola secuencia.</p>
     `;
 
     document.getElementById('pseudocodigo').textContent =
@@ -264,6 +278,7 @@
 ENTONCES segmento = "${data.segmento}"
 Y trigger = "${data.trigger}"
 Y acción = "${data.accion}"
+POR canal = "${pretty(data.canal)}"
 PARA objetivo = "${data.objetivo}"`;
   }
 
@@ -283,14 +298,18 @@ PARA objetivo = "${data.objetivo}"`;
       abandono_carrito: 'abandono de carrito',
       visita_repetida: 'visita repetida',
       compra_realizada: 'compra realizada',
-      running: 'zapatillas running',
-      email_marketing: 'email marketing',
-      crm: 'CRM',
-      ia_marketing: 'IA en marketing',
+      producto: 'producto',
+      guia: 'guía gratuita',
+      servicio: 'servicio',
+      cliente_actual: 'cliente actual',
       captacion: 'captación',
       consideracion: 'consideración',
       conversion: 'conversión',
-      fidelizacion: 'fidelización'
+      fidelizacion: 'fidelización',
+      email: 'email',
+      aviso_movil: 'aviso en móvil',
+      seguimiento: 'seguimiento interno',
+      web: 'sugerencia en la web'
     };
     return map[v] || v;
   }
